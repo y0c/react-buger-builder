@@ -20,6 +20,7 @@ const buildControls = ( props ) => {
                                 type={ctrl.type}
                                 added={props.added}
                                 removed={props.removed}
+                                disabled={props.disabledInfo[ctrl.type]}
                             />;
                 })
             }
