@@ -22,34 +22,57 @@ class BurgerBuilder extends Component {
                 cheese : 0,
                 meat : 0
             },
-            totalPrice : 4
+            totalPrice : 4,
+            purchasable : false
         }
     }
 
+    updatePurchaseState (ingredients) {
+        const sum = Object.keys(ingredients)
+            .map(igKey => {
+                return ingredients[igKey];
+            })
+            .reduce((sum, el) => {
+                return sum + el;
+            },0);
+
+        this.setState({ purchasable : sum > 0 });
+
+    }
+
     addIngredientHandler = ( type ) => {
+        const ingredients = {
+            ...this.state.ingredients,
+            [type] : this.state.ingredients[type] + 1
+        };
+
         this.setState((prevState, props) => {
             return {
-                ingredients : {
-                    ...this.state.ingredients,
-                    [type] : prevState.ingredients[type] + 1
-                },
+                ingredients,
                 totalPrice : prevState.totalPrice + INGREDIENT_PRICE[type]
             }
         });
+
+        this.updatePurchaseState(ingredients);
     }
 
+
     removeIngredientHandler = ( type ) => {
+        const ingredients = {
+            ...this.state.ingredients,
+            [type] : this.state.ingredients[type] - 1
+        };
+
         if ( this.state.ingredients[type] > 0 ) {
             this.setState((prevState, props) => {
                 return {
-                    ingredients : {
-                        ...this.state.ingredients,
-                        [type] : prevState.ingredients[type] - 1
-                    },
+                    ingredients,
                     totalPrice : prevState.totalPrice - INGREDIENT_PRICE[type]
                 }
             })
         }
+
+        this.updatePurchaseState(ingredients);
     }
 
     render() {
@@ -67,6 +90,8 @@ class BurgerBuilder extends Component {
                     removed={this.removeIngredientHandler}
                     disabledInfo={disabledInfo}
                     price={this.state.totalPrice}
+                    purchasable={this.state.purchasable}
+                    purchased={this.updatePurchaseState}
                 />
                 <div>Build Controls</div>
             </Aux>
