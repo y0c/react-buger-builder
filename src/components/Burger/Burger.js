@@ -4,6 +4,7 @@ import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
 const burger = ( props ) => {
 
+    console.log(props);
     //object -> array  변환 후 변환댄  array를 flat 하게 연결해줌
     let transfromedIngredients = Object.keys(props.ingredients)
         .map(igKey => {
