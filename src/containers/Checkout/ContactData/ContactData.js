@@ -19,6 +19,7 @@ class ContactData extends Component {
     orderHandler = ev => {
         const order = {
             ingredients: this.props.ingredients,
+            price: this.props.price,
             customer: {
                 name: "Lim Ho Sung",
                 address: {
